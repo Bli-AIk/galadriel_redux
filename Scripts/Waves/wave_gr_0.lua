@@ -1,5 +1,6 @@
 local Arena = battle.mainarena
 local Player = battle.Player
+local SPR_ENEMY = battle.SPR_ENEMY
 
 local wave = {
     ENDED = false,
@@ -7,8 +8,18 @@ local wave = {
 }
 
 local DIALOGUE_HEAD = "[voice:g.wav][fontSize:13][colorHEX:000000][font:speechbubble.ttf]"
+
+function DialogueSetSprite(spr)
+    return "[noskip][function:SetEnemySprite|" .. spr .. "][next]"
+end
+
+function SetEnemySprite(spr)
+    SPR_ENEMY:Set("Galadriel/" .. spr)
+end
+
 local pst = typers.CreateText({
     DIALOGUE_HEAD .. "...\n[wait:10]...\n[wait:10]...",
+    DialogueSetSprite("core_awake_1.png"),
     DIALOGUE_HEAD .. "CAN YOU FIND\nTHE GREEN\nBULLET?",
     "[noskip][function:startbattle][next]"
 }, { 400 - 2, 131 }, 200, { 210, 100 }, "manual")

@@ -6,15 +6,22 @@ battle = b.Init("Scripts.Libraries.Game.Encounter")
 atkp = require("Scripts.Libraries.Battle.Patterns.template")
 b.SetAtkPattern(atkp)
 
+-- 初始化战斗素材
 local SPR_ENEMY = sprites.CreateSprite("Galadriel/core_asleep.png", -1)
 SPR_ENEMY.y = 480 - 320 -- 和unity(cyf/unitale)需要换算坐标系……
+battle.SPR_ENEMY = SPR_ENEMY
 
---local SPR_ENEMY_TEST = sprites.CreateSprite("Galadriel/core_asleep_fix.png", -1)
---SPR_ENEMY_TEST.y = 480 - 320
+local BG_BLACKS = sprites.CreateSprite("Galadriel/bg_blacks.png", -3)
+local BG_WHITES = sprites.CreateSprite("Galadriel/bg_whites.png", -2)
 
---local test = sprites.CreateSprite("Galadriel/test.png", -2)
---test:MoveTo(320, 240)
---test:Scale(0.5, 0.5)
+
+-- 这是截图
+if false then  --滚木
+    local test = sprites.CreateSprite("Galadriel/test.png", 0)
+    test:MoveTo(320, 240)
+    test:Scale(0.5, 0.5)
+    test.color = { 1, 0, 0 }
+end
 
 local function HandleActions(enemy, action)
     local battle = b.battle
