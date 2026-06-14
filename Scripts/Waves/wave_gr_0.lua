@@ -1,7 +1,6 @@
 local Arena = battle.mainarena
 local Player = battle.Player
 local SPR_ENEMY = battle.SPR_ENEMY
-
 local wave = {
     ENDED = false,
     objects = {}
@@ -20,10 +19,17 @@ end
 local pst = typers.CreateText({
     DIALOGUE_HEAD .. "...\n[wait:10]...\n[wait:10]...",
     DialogueSetSprite("core_awake_1.png"),
-    DIALOGUE_HEAD .. "CAN YOU FIND\nTHE GREEN\nBULLET?",
+    DIALOGUE_HEAD .. "WHO GOES THERE?\n[wait:5]INTRUDER.\n[wait:5]PRESENT YOURSELF.",
+    DIALOGUE_HEAD .. "OH.[wait:5] IT'S YOU.\n[wait:5]COME TO FINALLY\nDESTROY ME?",
+    DIALOGUE_HEAD .. "HOW UNFORTUNATE[wait:5].[wait:5].[wait:5].[wait:5]\nFOR YOU.",
+    DialogueSetSprite("core_awake_2.png"),
+    DIALOGUE_HEAD .. "I'VE HAD PLENTY OF\nTIME TO REST AND\nREGAIN MY STRENGTH.",
+    DIALOGUE_HEAD .. "ARE YOU READY FOR\nOUR LAST DUEL?",
     "[noskip][function:startbattle][next]"
 }, { 400 - 2, 131 }, 200, { 210, 100 }, "manual")
 pst:ShowBubble("left", 0.5)
+
+--Player.canMove = false
 
 
 local function EndWave()
@@ -40,7 +46,7 @@ Arena:Resize(155, 130)
 Player.sprite:MoveTo(320, 320)
 
 local mask = masks.New("rectangle", 320, 320, 155, 130, 0, 1)
-
+battle.SPR_SHIELD:SetStencils({ mask })
 function wave.update(dt)
     mask:Follow(Arena.black)
 

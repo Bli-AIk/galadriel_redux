@@ -3,6 +3,7 @@
 local SCENE = {}
 local b = require("Scripts.Libraries.Battle.BattleInit")
 battle = b.Init("Scripts.Libraries.Game.Encounter")
+local Player = battle.Player
 atkp = require("Scripts.Libraries.Battle.Patterns.template")
 b.SetAtkPattern(atkp)
 
@@ -14,9 +15,12 @@ battle.SPR_ENEMY = SPR_ENEMY
 local BG_BLACKS = sprites.CreateSprite("Galadriel/bg_blacks.png", -3)
 local BG_WHITES = sprites.CreateSprite("Galadriel/bg_whites.png", -2)
 
+local SPR_SHIELD = sprites.CreateSprite("Galadriel/shield.png", 50)
+SPR_SHIELD.color = { 1, 0, 0 }
+battle.SPR_SHIELD = SPR_SHIELD
 
 -- 这是截图
-if false then  --滚木
+if false then --滚木
     local test = sprites.CreateSprite("Galadriel/test.png", 0)
     test:MoveTo(320, 240)
     test:Scale(0.5, 0.5)
@@ -109,6 +113,12 @@ function SCENE.load()
     -- For example, you might load images, sounds, etc.
 end
 
+function UpdateShield()
+    local x, y = Player.sprite:GetPosition()
+    SPR_SHIELD:MoveTo(x, y)
+    SPR_SHIELD.rotation = SPR_SHIELD.rotation - 1
+end
+
 -- This function is called to update the scene.
 function SCENE.update(dt)
     -- Update any game logic for this scene here.
@@ -118,6 +128,7 @@ function SCENE.update(dt)
     end
 
     b.Update(dt)
+    UpdateShield()
 end
 
 -- This function is called to draw the scene.
