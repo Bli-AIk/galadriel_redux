@@ -6,6 +6,15 @@ local wave = {
     objects = {}
 }
 
+local DIALOGUE_HEAD = "[voice:g.wav][fontSize:13][colorHEX:000000][font:speechbubble.ttf]"
+local pst = typers.CreateText({
+    DIALOGUE_HEAD .. "...\n[wait:10]...\n[wait:10]...",
+    DIALOGUE_HEAD .. "CAN YOU FIND\nTHE GREEN\nBULLET?",
+    "[noskip][function:startbattle][next]"
+}, { 400 - 2, 131 }, 200, { 210, 100 }, "manual")
+pst:ShowBubble("left", 0.5)
+
+
 local function EndWave()
     wave.ENDED = true
     arenas.clear()
