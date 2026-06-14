@@ -6,6 +6,18 @@ battle = b.Init("Scripts.Libraries.Game.Encounter")
 atkp = require("Scripts.Libraries.Battle.Patterns.template")
 b.SetAtkPattern(atkp)
 
+
+
+local SPR_ENEMY = sprites.CreateSprite("Attacks/Muffet/spr_spiderbullet1_0.png", -1)
+
+
+
+
+
+
+
+
+
 local function HandleActions(enemy, action)
     local battle = b.battle
     if not battle or not battle.Enemies then return end
@@ -40,8 +52,8 @@ local function HandleSpare()
     b.battle.STATE = "ACTIONSELECT"
 end
 
-local nextwaves = {"wave_test1", "wave_test2", "wave_test3", "wave_test4"}
-b.battle.nextwave = "wave_test1"
+local nextwaves = { "wave_gr_0" } --{"wave_test1", "wave_test2", "wave_test3", "wave_test4"}
+b.battle.nextwave = "wave_gr_0"
 local waveProgress = 1
 local function DefenseEnding()
     waveProgress = waveProgress + 1
@@ -75,12 +87,12 @@ local function OnHit(Bullet)
     end
 end
 
-b.HandleActions = HandleActions
-b.HandleItems   = HandleItems
-b.HandleSpare   = HandleSpare
-b.DefenseEnding = DefenseEnding
+b.HandleActions          = HandleActions
+b.HandleItems            = HandleItems
+b.HandleSpare            = HandleSpare
+b.DefenseEnding          = DefenseEnding
 b.EnteringStateInherited = EnteringState
-b.OnHit         = OnHit
+b.OnHit                  = OnHit
 
 
 
@@ -99,7 +111,7 @@ function SCENE.update(dt)
     if (b.GetSelectedEnemy() == 1 and b.GetState() == "ATTACKING") then
         -- print("Selected Poseur")
     end
-    
+
     b.Update(dt)
 end
 
