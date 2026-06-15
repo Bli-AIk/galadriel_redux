@@ -113,10 +113,60 @@ function SCENE.load()
     -- For example, you might load images, sounds, etc.
 end
 
+-- 更新，同步盾牌位置和让它进行一个转
 function UpdateShield()
     local x, y = Player.sprite:GetPosition()
     SPR_SHIELD:MoveTo(x, y)
     SPR_SHIELD.rotation = SPR_SHIELD.rotation - 1
+end
+
+local is_soul_switching = false
+local is_soul_white = false
+local has_midpoint_triggered = false
+
+local soul_switch_timer = 0
+local SOUL_SWITCH_TIMER_MAX = 0.3
+function SetRedWhiteColor(sprite)
+    if (is_soul_white) then
+        sprite.color = { 1, 1, 1 }
+    else
+        sprite.color = { 1, 0, 0 }
+    end
+end
+
+function UpdateSoul(dt)
+    if is_soul_switching and soul_switch_timer >= 0 then
+        local old_timer = soul_switch_timer
+
+        soul_switch_timer = math.clamp(soul_switch_timer - dt, 0, SOUL_SWITCH_TIMER_MAX)
+
+        local s = math.abs((2 * soul_switch_timer - SOUL_SWITCH_TIMER_MAX) / SOUL_SWITCH_TIMER_MAX)
+
+        local midpoint = SOUL_SWITCH_TIMER_MAX / 2
+        if not has_midpoint_triggered and old_timer >= midpoint and soul_switch_timer < midpoint then
+            has_midpoint_triggered = true
+            SetRedWhiteColor(SPR_SHIELD)
+        end
+
+        SPR_SHIELD:Scale(s, s)
+
+        if (soul_switch_timer == 0) then
+            is_soul_switching = false
+            Player.sprite:Set("Soul Library Sprites/spr_default_heart.png")
+        end
+    end
+
+    if keyboard.GetState("c") == 1 then
+        if not is_soul_switching then
+            is_soul_switching = true
+            soul_switch_timer = SOUL_SWITCH_TIMER_MAX
+            is_soul_white = not is_soul_white
+            has_midpoint_triggered = false
+
+            Player.sprite:Set("Galadriel/ika_heart_black.png")
+            SetRedWhiteColor(Player.sprite)
+        end
+    end
 end
 
 -- This function is called to update the scene.
@@ -129,6 +179,7 @@ function SCENE.update(dt)
 
     b.Update(dt)
     UpdateShield()
+    UpdateSoul(dt)
 end
 
 -- This function is called to draw the scene.
@@ -145,6 +196,11 @@ function SCENE.clear()
     -- For example, you might unload images, sounds, etc.
     b.Clear()
     package.loaded["Scripts.Libraries.Battle.BattleInit"] = nil
+end
+
+-- 为什么不自带clamp我真服了
+function math.clamp(val, min, max)
+    return math.min(math.max(val, min), max)
 end
 
 -- Don't touch this(just one line).
